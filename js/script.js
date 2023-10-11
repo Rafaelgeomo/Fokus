@@ -52,7 +52,7 @@ function alterarContexto (contexto) {
         contexto.classList.remove('active')
     })
     html.setAttribute('data-contexto', contexto)
-    banner.setAttribute('src', `/img/${contexto}.png`)
+    banner.setAttribute('src', `./img/${contexto}.png`)
     switch (contexto) {
         case "foco":
             titulo.innerHTML = `
@@ -96,13 +96,13 @@ function iniciarOuPausar(){
     audioPlay.play()  
     intervaloId = setInterval(contagemRegressiva, 1000) // repetem chamadas de funções ou executam trechos de código, com um tempo de espera fixo entre cada chamada.
     iniciarOuPausarBt.textContent = "Pausar"
-    iniciarOuPausarBtIcone.setAttribute('src',`/img/pause.png`)
+    iniciarOuPausarBtIcone.setAttribute('src',`./img/pause.png`)
 }
 
 function zerar(){    
     clearInterval(intervaloId) //interrompe a execução de algum codigo, no caso foi o intervaloId como colocado dentro do parametro
     iniciarOuPausarBt.textContent = "Começar"
-    iniciarOuPausarBtIcone.setAttribute('src',`/img/play_arrow.png`)
+    iniciarOuPausarBtIcone.setAttribute('src',`./img/play_arrow.png`)
     intervaloId = null
 }
 
