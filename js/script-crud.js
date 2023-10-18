@@ -4,16 +4,14 @@ const formTask = document.querySelector('.app__form-add-task')
 const toggleFormTaskBtn = document.querySelector('.app__button--add-task') // toggle = altenar (ele sera responsavel em fazer nosso formulario ficar visivel ao clicar no botao)
 const formLabel = document.querySelector('.app__form-label')
 
-let tarefas = [
-    {
-        descricao: 'Tarefa Concluída',
-        concluidas: true
-    },
-    {
-        descricao: 'Tarefa Pendente',
-        concluidas: false
-    }
-]
+const cancelTaskBtn = document.querySelector('.app__form-footer__button--cancel')
+
+const textarea = document.querySelector('.app__form-textarea')
+
+const btnCancelar = document.querySelector('.app__form-footer__button--cancel')
+
+
+let tarefas = []
 
 const taskIconSvg = `
 <svg class="app__section-task-icon-status" width="24" height="24" viewBox="0 0 24 24"
@@ -24,6 +22,11 @@ const taskIconSvg = `
         fill="#01080E" />
 </svg>
 `
+const limparForm = ()=> {
+    textarea.value = ''
+    formTask.classList.add('hidden')
+}
+
 function createTask(tarefa) { //Essa função receberá a tarefa como parâmetro, dado que ela está gerando uma tarefa
     const li = document.createElement('li') //cria um elemento (nesse caso uma lista) pelo no HTML direto pelo JS
     li.classList.add('app__section-task-list-item') //cria uma classe para o elmento acima, para poder estilizar ela no css
@@ -50,4 +53,26 @@ tarefas.forEach(task => {
 toggleFormTaskBtn.addEventListener('click', () => {
     formLabel.textContent = 'Adicionando tarefa'
     formTask.classList.toggle('hidden')
+    
 })
+
+cancelTaskBtn.addEventListener('click', ()=>{
+    formTask.classList.toggle('hidden')
+
+})
+
+btnCancelar.addEventListener('click', limparForm)
+
+formTask.addEventListener('submit', (evento) =>{
+    evento.preventDefault()
+    const task = {
+        descricao: textarea.value,
+        concluida: false
+    }
+    tarefas.push(task)
+    const taskItem = createTask(task)
+    taskListContainer.appendChild(taskItem)
+
+    limparForm()
+})
+
