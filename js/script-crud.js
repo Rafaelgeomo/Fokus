@@ -1,5 +1,9 @@
 const taskListContainer = document.querySelector('.app__section-task-list')
 
+const formTask = document.querySelector('.app__form-add-task')
+const toggleFormTaskBtn = document.querySelector('.app__button--add-task') // toggle = altenar (ele sera responsavel em fazer nosso formulario ficar visivel ao clicar no botao)
+const formLabel = document.querySelector('.app__form-label')
+
 let tarefas = [
     {
         descricao: 'Tarefa Concluída',
@@ -41,4 +45,9 @@ function createTask(tarefa) { //Essa função receberá a tarefa como parâmetro
 tarefas.forEach(task => {
     const taskItem = createTask(task)
     taskListContainer.appendChild(taskItem)
+})
+
+toggleFormTaskBtn.addEventListener('click', () => {
+    formLabel.textContent = 'Adicionando tarefa'
+    formTask.classList.toggle('hidden')
 })
