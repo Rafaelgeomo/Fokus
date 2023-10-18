@@ -1,4 +1,4 @@
-const taskListContainer = document.querySelector('app__section-task-list')
+const taskListContainer = document.querySelector('.app__section-task-list')
 
 let tarefas = [
     {
@@ -18,5 +18,27 @@ const taskIconSvg = `
     <path
         d="M9 16.1719L19.5938 5.57812L21 6.98438L9 18.9844L3.42188 13.4062L4.82812 12L9 16.1719Z"
         fill="#01080E" />
-</
+</svg>
 `
+function createTask(tarefa) { //Essa função receberá a tarefa como parâmetro, dado que ela está gerando uma tarefa
+    const li = document.createElement('li') //cria um elemento (nesse caso uma lista) pelo no HTML direto pelo JS
+    li.classList.add('app__section-task-list-item') //cria uma classe para o elmento acima, para poder estilizar ela no css
+
+    const svgIcon = document.createElement('svg') //
+    svgIcon.innerHTML = taskIconSvg
+
+    const paragraph = document.createElement('p')
+    paragraph.classList.add('app__section-task-list-item-description')
+
+    paragraph.textContent = tarefa.descricao // tarefa receba a descrição
+
+    li.appendChild(svgIcon) //pegando o elemento filho e jogando dentro do elemento pai que seria o LI (que representa uma tarefa)
+    li.appendChild(paragraph)
+
+    return li
+}
+
+tarefas.forEach(task => {
+    const taskItem = createTask(task)
+    taskListContainer.appendChild(taskItem)
+})
