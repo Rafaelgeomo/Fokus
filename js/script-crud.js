@@ -6,12 +6,15 @@ const formLabel = document.querySelector('.app__form-label')
 
 const cancelTaskBtn = document.querySelector('.app__form-footer__button--cancel')
 
+const taskAtiveDescription = document.querySelector('.app__section-active-task-description')
+
 const textarea = document.querySelector('.app__form-textarea')
 
 const btnCancelar = document.querySelector('.app__form-footer__button--cancel')
 
+const localStorageTarefas = localStorage.getItem('tarefas')
 
-let tarefas = []
+let tarefas = localStorageTarefas ? JSON.parse(localStorageTarefas) : []
 
 const taskIconSvg = `
 <svg class="app__section-task-icon-status" width="24" height="24" viewBox="0 0 24 24"
@@ -22,6 +25,28 @@ const taskIconSvg = `
         fill="#01080E" />
 </svg>
 `
+let tarefaSelecionada = null
+let itemTarefaSelecionada = null
+
+const selecionaTarefa = (tarefa, elemento) => {
+
+    document.querySelectorAll('.app__section-task-list-item-active').forEach(function(button){
+        button.classList.remove('app__section-task-list-item-active')
+    })
+
+    if(tarefaSelecionada == tarefa){
+        taskAtiveDescription.textContent = null
+        itemTarefaSelecionada = null
+        tarefaSelecionada = null
+        return
+    }
+
+    tarefaSelecionada = tarefa
+    itemTarefaSelecionada = elemento
+    taskAtiveDescription.textContent = tarefa.descricao
+    elemento.classList.add('app__section-task-list-item-active')
+
+}
 const limparForm = ()=> {
     textarea.value = ''
     formTask.classList.add('hidden')
@@ -39,6 +64,10 @@ function createTask(tarefa) { //Essa função receberá a tarefa como parâmetro
 
     paragraph.textContent = tarefa.descricao // tarefa receba a descrição
 
+    li.onclick = () => {
+        selecionaTarefa(tarefa, li)
+    }
+
     li.appendChild(svgIcon) //pegando o elemento filho e jogando dentro do elemento pai que seria o LI (que representa uma tarefa)
     li.appendChild(paragraph)
 
@@ -50,18 +79,22 @@ tarefas.forEach(task => {
     taskListContainer.appendChild(taskItem)
 })
 
-toggleFormTaskBtn.addEventListener('click', () => {
-    formLabel.textContent = 'Adicionando tarefa'
-    formTask.classList.toggle('hidden')
-    
-})
-
 cancelTaskBtn.addEventListener('click', ()=>{
     formTask.classList.toggle('hidden')
 
 })
 
 btnCancelar.addEventListener('click', limparForm)
+
+toggleFormTaskBtn.addEventListener('click', () => {
+    formLabel.textContent = 'Adicionando tarefa'
+    formTask.classList.toggle('hidden')
+    
+})
+
+const updateLocalStorage = () => {
+    localStorage.setItem('tarefas', JSON.stringify(tarefas))
+}
 
 formTask.addEventListener('submit', (evento) =>{
     evento.preventDefault()
@@ -73,6 +106,8 @@ formTask.addEventListener('submit', (evento) =>{
     const taskItem = createTask(task)
     taskListContainer.appendChild(taskItem)
 
+    updateLocalStorage()
     limparForm()
 })
+
 
