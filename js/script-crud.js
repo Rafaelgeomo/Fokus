@@ -64,8 +64,21 @@ function createTask(tarefa) { //Essa função receberá a tarefa como parâmetro
 
     paragraph.textContent = tarefa.descricao // tarefa receba a descrição
 
+    const button = document.createElement('button')
+
     li.onclick = () => {
         selecionaTarefa(tarefa, li)
+    }
+
+    svgIcon.addEventListener('click', (event) => {
+        event.stopPropagation()
+        button.setAttribute('disabled', true)
+        li.classList.add('app__section-task-list-item-complete')
+    })
+
+    if(tarefa.concluida){
+        button.setAttribute('disabled', true)
+        li.classList.add('app__section-task-list-item-complete')
     }
 
     li.appendChild(svgIcon) //pegando o elemento filho e jogando dentro do elemento pai que seria o LI (que representa uma tarefa)
